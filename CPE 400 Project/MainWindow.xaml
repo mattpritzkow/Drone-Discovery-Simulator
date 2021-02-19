@@ -1,0 +1,94 @@
+﻿<Window x:Class="CPE400Project.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CPE400Project.MapDisplay"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Width="1600"
+        Height="900"
+        WindowState="Maximized">
+
+
+    <StackPanel VerticalAlignment="Center" x:Name="MainPanel">
+        <StackPanel Visibility="{Binding Path=MapVis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <!--{Binding Path=MapVis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+            <local:MapElement  x:Name="MapGrid" Map="{Binding Path=Map}" Grid.Row="0"/>
+            <StackPanel Height="30" Background="LightGray"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5">
+                <TextBlock FontSize="12pt" Text="KEY |" VerticalAlignment="Center" Margin="2 0"/>
+                <TextBlock Width="7px" Height="7px" Background="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2 0"/>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2 0" Text="Home Base"/>
+                <TextBlock Width="4px" Height="4px" Background="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2 0"/>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2 0" Text="Drone"/>
+            </StackPanel>
+            <Button x:Name="restartBtn" Visibility="Collapsed" Width="150" Click="Button_Click">Restart Simulation</Button>
+        </StackPanel>
+        <StackPanel x:Name="LoadingScreen" Visibility="{Binding Path=LoadingVis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Generating Map..." FontSize="25pt"/>
+        </StackPanel>
+        <StackPanel Visibility="{Binding Path=OptionsVis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" x:Name="OptionsMenu">
+            <TextBlock HorizontalAlignment="Center" FontSize="20pt" Margin="0 0 0 10" Text="Region Mapping Simulation"></TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock  HorizontalAlignment="Right" Grid.Column="1" Text="Grid Size (Pixels): " Height="18" VerticalAlignment="Top"></TextBlock>
+                <TextBox Grid.Column="2" Width="50" Text="{Binding Path=MapWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2 0"></TextBox>
+                <TextBox Grid.Column="3" Width="50" Text="{Binding Path=MapHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2 0"></TextBox>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock  HorizontalAlignment="Right" Grid.Column="1" Text="Drone Vision Radius: " Height="18" VerticalAlignment="Top"></TextBlock>
+                <Slider Name="VisionSlider" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding Path=DroneVision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Width="100" Minimum="12" Maximum="50" HorizontalAlignment="Left"></Slider>
+                <TextBlock Width="35" Margin="5, 0, 0 ,0" Grid.Column="3" Text="{Binding ElementName=VisionSlider, Path=Value}"  HorizontalAlignment="Left"></TextBlock>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock  HorizontalAlignment="Right" Grid.Column="1" Text="Number of Drones: " Height="18" VerticalAlignment="Top"></TextBlock>
+                <Slider Name="DroneSlider" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding Path=NumDrones, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Width="100" Minimum="5" Maximum="25" HorizontalAlignment="Left"></Slider>
+                <TextBlock Width="35" Margin="5, 0, 0 ,0" Grid.Column="3" Text="{Binding ElementName=DroneSlider, Path=Value}"  HorizontalAlignment="Left"></TextBlock>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="143*"/>
+                    <ColumnDefinition Width="133*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="276*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Width="105" HorizontalAlignment="Right" Grid.Column="2" Text="Drone Battery Life: "></TextBlock>
+                <Slider Name="BatterySlider" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding Path=DroneBattery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Width="100" Minimum="2000" Maximum="20000" HorizontalAlignment="Left"></Slider>
+                <TextBlock Width="35" Margin="5, 0, 0 ,0" Grid.Column="4" Text="{Binding ElementName=BatterySlider, Path=Value}"  HorizontalAlignment="Left"></TextBlock>
+            </Grid>
+            <Button  Click="BeginSimulation" Width="100px">Run Simulation</Button>
+        </StackPanel>
+
+    </StackPanel>
+
+    <Window.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="Margin" Value="0 5"/>
+        </Style>
+    </Window.Resources>
+</Window>
+    
+
+    
